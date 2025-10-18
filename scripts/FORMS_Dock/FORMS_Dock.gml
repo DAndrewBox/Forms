@@ -50,6 +50,9 @@ function FORMS_DockProps(): FORMS_WidgetProps() constructor
 
 	/// @var {Bool, Undefined} Whether to show tabs (`true`) or not (`false`).
 	ShowTabs = undefined;
+	
+	/// @var {Function, Undefined} Callback to execute when pressing the add tab button. Defining this will add the "+" sign at the end of the last tab,
+	TabAddAction = undefined;
 }
 
 /// @func FORMS_Dock([_props])
@@ -102,6 +105,9 @@ function FORMS_Dock(_props = undefined): FORMS_Widget(_props) constructor
 
 	/// @var {Bool, Undefined} Whether to show tabs (`true`, default) or not (`false`).
 	ShowTabs = forms_get_prop(_props, "ShowTabs") ?? true;
+	
+	/// @var {Function, Undefined} Callback to execute when pressing the add tab button. Defining this will add the "+" sign at the end of the last tab,
+	TabAddAction = forms_get_prop(_props, "TabAddAction") ?? undefined;
 
 	/// @var {Struct.FORMS_DockTabs}
 	/// @private
@@ -633,6 +639,13 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 			}
 			Pen.move(_tabPadding);
 			++_tabIndex;
+		}
+		
+		if (is_callable(_dock.TabAddAction)) {
+			Pen.move(2);
+			if (Pen.icon_solid(FA_ESolid.Plus, { Width: 24 })) {
+				script_execute(_dock.TabAddAction);
+			}
 		}
 
 		Pen.finish();

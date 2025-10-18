@@ -55,7 +55,7 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	{
 		Width: "100%",
 		Height: "100%",
-		Flex: 1,
+		Flex: 1
 	});
 	add_child(_dock);
 
@@ -66,7 +66,11 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 
 	_dock.split_left();
 	_dock.SplitSize = 0.25;
-
+	
+	_dock.get_first().TabAddAction = function () {
+		Parent.add_tab(new TestControlsScrollPane());
+	}
+	
 	_dock.get_second().set_tabs([
 		new FORMS_ApplicationSurface(
 		{
