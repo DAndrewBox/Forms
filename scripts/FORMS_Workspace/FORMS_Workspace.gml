@@ -10,6 +10,9 @@ function FORMS_WorkspaceProps(): FORMS_WidgetProps() constructor
 
 	/// @var {Real, Undefined} The alpha value of the background.
 	BackgroundAlpha = undefined;
+	
+	/// @var {Function, Undefined} Callback to execute when pressing the add tab button. Defining this will add the "+" sign at the end of the last tab,
+	TabAddAction = undefined;
 }
 
 /// @func FORMS_Workspace([_props])
@@ -29,6 +32,9 @@ function FORMS_Workspace(_props = undefined): FORMS_Widget(_props) constructor
 
 	/// @var {Real} The alpha value of the background. Defaults to 1.
 	BackgroundAlpha = forms_get_prop(_props, "BackgroundAlpha") ?? 1.0;
+
+	/// @var {Function, Undefined} Callback to execute when pressing the add tab button. Defining this will add the "+" sign at the end of the last tab,
+	TabAddAction = forms_get_prop(_props, "TabAddAction") ?? undefined;
 
 	/// @var {Struct.FORMS_WorkspaceTabs} A container that displays the workspace's tabs.
 	/// @readonly
@@ -232,10 +238,13 @@ function FORMS_WorkspaceTabs(_props = undefined): FORMS_Container(_props) constr
 			++_tabIndex;
 		}
 
-		Pen.move(2);
-		if (Pen.icon_solid(FA_ESolid.Plus, { Width: 24 }))
+		if (is_callable(_workspace.TabAddAction))
 		{
-			// TODO: Open context menu with workspaces
+			Pen.move(2);
+			if (Pen.icon_solid(FA_ESolid.Plus, { Width: 24 }))
+			{
+				_workspace.add_tab(script_execute(_workspace.TabAddAction));
+			}
 		}
 
 		Pen.finish();

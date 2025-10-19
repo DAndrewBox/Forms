@@ -644,7 +644,7 @@ function FORMS_DockTabs(_props = undefined): FORMS_Container(_props) constructor
 		if (is_callable(_dock.TabAddAction)) {
 			Pen.move(2);
 			if (Pen.icon_solid(FA_ESolid.Plus, { Width: 24 })) {
-				script_execute(_dock.TabAddAction);
+				_dock.add_tab(script_execute(_dock.TabAddAction));
 			}
 		}
 

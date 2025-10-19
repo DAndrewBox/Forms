@@ -68,7 +68,7 @@ function TestWorkspace(): FORMS_FlexBox() constructor
 	_dock.SplitSize = 0.25;
 	
 	_dock.get_first().TabAddAction = function () {
-		Parent.add_tab(new TestControlsScrollPane());
+		return new TestControlsScrollPane();
 	}
 	
 	_dock.get_second().set_tabs([
